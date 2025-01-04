@@ -16,3 +16,6 @@ npx prisma migrate dev --name <migration name>
 
 - create prisma clients but as this is serverless architecture we will not need engine 
 npx prisma generate --no-engine
+
+- Add accelerate extension to your project 
+npm install @prisma/extension-accelerate

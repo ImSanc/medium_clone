@@ -2,7 +2,9 @@ import { Hono } from 'hono'
 import user from './routes/user'
 import blog from './routes/blog'
 
-const app = new Hono()
+const app = new Hono<{
+  
+}>().basePath("/api");
 
 app.route('/v1/user', user);
 app.route('/v1/blog', blog);
