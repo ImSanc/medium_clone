@@ -34,4 +34,4 @@ lerna-debug.log*
 
 
 # wrangler 
-wrangler.toml
+.wrangler.toml
