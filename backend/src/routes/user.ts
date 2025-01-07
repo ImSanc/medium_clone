@@ -1,8 +1,9 @@
 import { Hono } from "hono"
 import { PrismaClient, Prisma } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import {decode, verify ,sign} from 'hono/jwt'
+import {sign} from 'hono/jwt'
 import {hash ,compare} from 'bcryptjs';
+import { ResponseMessages } from "../constants/errorMessages";
 
 const user = new Hono<{
     Bindings : {
@@ -26,20 +27,24 @@ user.post( '/signup', async (c) => {
 
         const hashedPassword = await hash(password,c.env.SALT);
 
-        await prisma.user.create({
+        const userId  = await prisma.user.create({
             data :{
                 email ,
                 name ,
                 password : hashedPassword
+            },
+            select : {
+                id : true
             }
         });
 
-        const token = await sign({email},c.env.JWT_SECRET);
-
+        const token = await sign({ email,userId },c.env.JWT_SECRET);
+        const finalToken = "Bearer " + token;
+        
         c.status(201);
         return c.json({
-            token : token,
-            message : "User created successfully"
+            token : finalToken,
+            message : ResponseMessages.USER_CREATED_SUCCESSFULLY
         });
     }
     catch(e){
@@ -48,11 +53,11 @@ user.post( '/signup', async (c) => {
             if(e.code === 'P2002')
             {
                 c.status(409);
-                return c.json({ message: "Email already in use" });
+                return c.json({ message: ResponseMessages.EMAIL_ALREADY_IN_USE });
             }
         }
         c.status(500);
-        return c.json({message : "Internal server error"});
+        return c.json({message : ResponseMessages.INTERNAL_SERVER_ERROR});
     }
     finally{
         await prisma.$disconnect();
@@ -74,33 +79,38 @@ user.post( '/signin', async (c) => {
         const user = await prisma.user.findUnique({
             where : {
                 email
+            },
+            select : {
+                id : true,
+                password : true
             }
         });
 
         if(!user){
             c.status(404);
-            return c.json({message : "User not found"});
+            return c.json({message : ResponseMessages.USER_NOT_FOUND});
         }
 
         const isPasswordCorrect = await compare(password,user.password);
 
         if(!isPasswordCorrect){
             c.status(401);
-            return c.json({message : "Invalid credentials"});
+            return c.json({message : ResponseMessages.INVALID_CREDENTIALS});
         }
         else
         {
-            const token = await sign({email},c.env.JWT_SECRET);
+            const token = await sign({email , userId : user.id},c.env.JWT_SECRET);
+            const finalToken = "Bearer " + token;
             c.status(200);
             return c.json({
-                token : token,
-                message : "User signed in successfully"
+                token : finalToken,
+                message : ResponseMessages.USER_SIGNED_IN_SUCCESSFULLY
             });
         }
     }
     catch(e){
         c.status(500);
-        return c.json({message : "Internal server error"});
+        return c.json({message : ResponseMessages.INTERNAL_SERVER_ERROR});
     }
     finally{
         await prisma.$disconnect();
