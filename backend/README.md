@@ -19,3 +19,6 @@ npx prisma generate --no-engine
 
 - Add accelerate extension to your project 
 npm install @prisma/extension-accelerate
+
+## Add wrangler.toml to run the backend
+In wrangler.toml add DATABASE_URL , SALT, JWT_SECRET

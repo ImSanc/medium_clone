@@ -1,10 +1,14 @@
 import { Hono } from "hono"
 import { PrismaClient, Prisma } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
+import {decode, verify ,sign} from 'hono/jwt'
+import {hash ,compare} from 'bcryptjs';
 
 const user = new Hono<{
     Bindings : {
-        DATABASE_URL :string
+        DATABASE_URL :string,
+        JWT_SECRET :string,
+        SALT : number
       }
 }>();
 
@@ -20,16 +24,23 @@ user.post( '/signup', async (c) => {
         const body = await c.req.json();
         const {email,name, password} = body;
 
+        const hashedPassword = await hash(password,c.env.SALT);
+
         await prisma.user.create({
             data :{
                 email ,
                 name ,
-                password 
+                password : hashedPassword
             }
         });
 
+        const token = await sign({email},c.env.JWT_SECRET);
+
         c.status(201);
-        return c.json({message : "User created successfully"});
+        return c.json({
+            token : token,
+            message : "User created successfully"
+        });
     }
     catch(e){
 
@@ -57,6 +68,35 @@ user.post( '/signin', async (c) => {
 
     try {
 
+        const body = await c.req.json();
+        const {email, password} = body;
+
+        const user = await prisma.user.findUnique({
+            where : {
+                email
+            }
+        });
+
+        if(!user){
+            c.status(404);
+            return c.json({message : "User not found"});
+        }
+
+        const isPasswordCorrect = await compare(password,user.password);
+
+        if(!isPasswordCorrect){
+            c.status(401);
+            return c.json({message : "Invalid credentials"});
+        }
+        else
+        {
+            const token = await sign({email},c.env.JWT_SECRET);
+            c.status(200);
+            return c.json({
+                token : token,
+                message : "User signed in successfully"
+            });
+        }
     }
     catch(e){
         c.status(500);
