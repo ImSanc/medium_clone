@@ -1,12 +1,13 @@
 import { Hono } from "hono";
+import { verifyToken } from "../middlewares/tokenVerfication";
 
 const blog = new Hono();
 
-blog.post( '/', async (c)=>{
+blog.post( '/',verifyToken, async (c)=>{
     console.log("Blog post api called ");
 });
 
-blog.put( '/', async (c)=>{
+blog.put( '/',verifyToken, async (c)=>{
     console.log("Blog put api called ");
 });
 

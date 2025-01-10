@@ -1,11 +1,12 @@
 import { Hono } from 'hono'
 import user from './routes/user'
 import blog from './routes/blog'
+import { connectDB } from './middlewares/prismaClient';
+import { Environment } from './constants/environment';
 
-const app = new Hono<{
-  
-}>().basePath("/api");
+const app = new Hono<Environment>().basePath("/api");
 
+app.use(connectDB);
 app.route('/v1/user', user);
 app.route('/v1/blog', blog);
 

@@ -9,5 +9,8 @@ export enum ResponseMessages {
     USER_CREATED_SUCCESSFULLY = 'User created successfully',
     NO_AUTHORIZATION_HEADER_FOUND = 'No authorization header found',
     INVALID_TOKEN_FORMAT= 'Invalid token format',
+    DB_CONNECTION_ISSUE = 'Unable to connect Database',
+    INVALID_OR_EXPIRED_TOKEN = 'Invalid or expired token',
+    AUTHENTICATION_ERROR = 'Authentication error'
 
 }

@@ -4,26 +4,20 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import {sign} from 'hono/jwt'
 import {hash ,compare} from 'bcryptjs';
 import { ResponseMessages } from "../constants/errorMessages";
+import { Environment } from "../constants/environment";
 
-const user = new Hono<{
-    Bindings : {
-        DATABASE_URL :string,
-        JWT_SECRET :string,
-        SALT : number
-      }
-}>();
+const user = new Hono<
+    Environment
+>();
 
 user.post( '/signup', async (c) => {
 
     console.log(" User signup api called ");
 
-    const prisma = new PrismaClient({
-        datasourceUrl : c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
-
     try{
         const body = await c.req.json();
         const {email,name, password} = body;
+        const prisma = c.get('prisma');
 
         const hashedPassword = await hash(password,c.env.SALT);
 
@@ -40,7 +34,7 @@ user.post( '/signup', async (c) => {
 
         const token = await sign({ email,userId },c.env.JWT_SECRET);
         const finalToken = "Bearer " + token;
-        
+
         c.status(201);
         return c.json({
             token : finalToken,
@@ -59,20 +53,14 @@ user.post( '/signup', async (c) => {
         c.status(500);
         return c.json({message : ResponseMessages.INTERNAL_SERVER_ERROR});
     }
-    finally{
-        await prisma.$disconnect();
-    }
 });
 
 user.post( '/signin', async (c) => {
     console.log(" User signin api called ");
 
-    const prisma = new PrismaClient({
-        datasourceUrl : c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
-
     try {
 
+        const prisma = c.get('prisma');
         const body = await c.req.json();
         const {email, password} = body;
 
@@ -111,9 +99,6 @@ user.post( '/signin', async (c) => {
     catch(e){
         c.status(500);
         return c.json({message : ResponseMessages.INTERNAL_SERVER_ERROR});
-    }
-    finally{
-        await prisma.$disconnect();
     }
 });
 

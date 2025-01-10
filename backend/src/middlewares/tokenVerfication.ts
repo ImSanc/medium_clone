@@ -1,11 +1,9 @@
 import { Context, Next } from "hono"
 import { ResponseMessages } from "../constants/errorMessages"
 import { verify } from "hono/jwt"
+import { ErrorResponse } from "../constants/response"
 
-type ErrorResponse = {
-    success : false 
-    message : string
-}
+
 
 export const verifyToken = async ( c : Context, next : Next) => {
     try {
@@ -36,14 +34,14 @@ export const verifyToken = async ( c : Context, next : Next) => {
         if (error instanceof Error) {
             return c.json<ErrorResponse>({
               success: false,
-              message: 'Invalid or expired token'
+              message: ResponseMessages.INVALID_OR_EXPIRED_TOKEN
             }, 401)
         }
       
         
           return c.json<ErrorResponse>({
             success: false,
-            message: 'Authentication error'
+            message: ResponseMessages.AUTHENTICATION_ERROR
           }, 500)
     }
 }
