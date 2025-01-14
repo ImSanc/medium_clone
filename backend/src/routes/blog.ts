@@ -118,6 +118,32 @@ blog.get( '/:id', async (c)=>{
 
 blog.get( '/bulk', async (c)=>{
     console.log("Blog get api called ");
+
+    const id = c.req.param('id');
+    const prisma = c.get('prisma');
+
+    try{
+        const posts = prisma.post.findMany();
+
+        return c.json( {
+            posts : posts,
+            success : true,
+            message : ResponseMessages.POSTS_RECEIVED
+        })
+    }
+    catch( error){
+        return c.json(
+            {
+                success : false,
+                message : ResponseMessages.POST_RETRIEVE_FAILED
+            }
+
+        ,409);
+    }
+
+
+    
+
 });
 
 export default blog;

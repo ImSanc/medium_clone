@@ -17,6 +17,7 @@ export enum ResponseMessages {
     POST_UPDATED = "Post updated successfully",
     POST_UPDATION_FAILED = "Post updation failed",
     POST_RECEIVED = "Post received successfully",
+    POSTS_RECEIVED = "Posts received successfully",
     POST_RETRIEVE_FAILED = "Post retrievel failed"
 
 }
