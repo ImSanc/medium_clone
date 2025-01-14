@@ -11,6 +11,12 @@ export enum ResponseMessages {
     INVALID_TOKEN_FORMAT= 'Invalid token format',
     DB_CONNECTION_ISSUE = 'Unable to connect Database',
     INVALID_OR_EXPIRED_TOKEN = 'Invalid or expired token',
-    AUTHENTICATION_ERROR = 'Authentication error'
+    AUTHENTICATION_ERROR = 'Authentication error',
+    POST_CREATED = "Post created successfully",
+    POST_FAILED = "Post creation failed",
+    POST_UPDATED = "Post updated successfully",
+    POST_UPDATION_FAILED = "Post updation failed",
+    POST_RECEIVED = "Post received successfully",
+    POST_RETRIEVE_FAILED = "Post retrievel failed"
 
 }
