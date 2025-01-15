@@ -15,6 +15,7 @@ export type Environment = { Bindings : {
     SALT : number
   },
 Variables : {
-    prisma : PrismaClientWithAccelerate
+    prisma : PrismaClientWithAccelerate,
+    userId : string
 }
 }

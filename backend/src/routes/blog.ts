@@ -10,6 +10,7 @@ blog.post( '/',verifyToken, async (c)=>{
     
     const body = await c.req.json();
     const prisma = c.get('prisma');
+    const userId = c.get('userId');
 
     try{
     const postId = await prisma.post.create({
@@ -17,7 +18,7 @@ blog.post( '/',verifyToken, async (c)=>{
             title : body.title,
             content : body.content,
             published : body.published,
-            author : body.author
+            authorId : userId
         },
         select : {
             id : true
@@ -79,6 +80,40 @@ blog.put( '/',verifyToken, async (c)=>{
 
 });
 
+//Todo add pagination
+blog.get( '/bulk', async (c)=>{
+    console.log("Blog bulk get api called ");
+
+    const id = c.req.param('id');
+    const prisma = c.get('prisma');
+
+
+    try{
+        const posts = await prisma.post.findMany({
+            where : {
+                published : true
+            }
+        });
+
+        return c.json( {
+            posts : posts,
+            success : true,
+            message : ResponseMessages.POSTS_RECEIVED
+        })
+    }
+    catch( error){
+        return c.json(
+            {
+                success : false,
+
+                message : ResponseMessages.POST_RETRIEVE_FAILED
+            }
+
+        ,409);
+    }
+
+});
+
 blog.get( '/:id', async (c)=>{
     console.log("Blog get api called ");
 
@@ -95,9 +130,16 @@ blog.get( '/:id', async (c)=>{
                 title : true,
                 content :true,
                 published :true,
-                author : true
+                authorId : true
             }
         });
+
+        if( !res) {
+            return c.json({
+                success : false,
+                message : ResponseMessages.POST_NOT_FOUND
+            },400);
+        }
 
         return c.json({
             success : true,
@@ -116,34 +158,5 @@ blog.get( '/:id', async (c)=>{
     }
 });
 
-blog.get( '/bulk', async (c)=>{
-    console.log("Blog get api called ");
-
-    const id = c.req.param('id');
-    const prisma = c.get('prisma');
-
-    try{
-        const posts = prisma.post.findMany();
-
-        return c.json( {
-            posts : posts,
-            success : true,
-            message : ResponseMessages.POSTS_RECEIVED
-        })
-    }
-    catch( error){
-        return c.json(
-            {
-                success : false,
-                message : ResponseMessages.POST_RETRIEVE_FAILED
-            }
-
-        ,409);
-    }
-
-
-    
-
-});
 
 export default blog;
