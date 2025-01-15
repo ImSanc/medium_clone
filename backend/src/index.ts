@@ -3,9 +3,11 @@ import user from './routes/user'
 import blog from './routes/blog'
 import { connectDB } from './middlewares/prismaClient';
 import { Environment } from './constants/environment';
+import { cors} from "hono/cors";
 
 const app = new Hono<Environment>().basePath("/api");
 
+app.use('/api/*',cors());
 app.use(connectDB);
 app.route('/v1/user', user);
 app.route('/v1/blog', blog);

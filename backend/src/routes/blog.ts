@@ -117,7 +117,6 @@ blog.get( '/bulk', async (c)=>{
 blog.get( '/:id', async (c)=>{
     console.log("Blog get api called ");
 
-    const body = await c.req.json();
     const id = c.req.param('id');
     const prisma = c.get('prisma');
 
