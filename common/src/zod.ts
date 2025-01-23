@@ -8,3 +8,4 @@ export const signUpInput = z.object({
 })
 
 type SignUpInput = z.infer<typeof signUpInput>;
+
