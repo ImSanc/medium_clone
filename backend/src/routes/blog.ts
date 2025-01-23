@@ -83,10 +83,8 @@ blog.put( '/',verifyToken, async (c)=>{
 //Todo add pagination
 blog.get( '/bulk', async (c)=>{
     console.log("Blog bulk get api called ");
-
-    const id = c.req.param('id');
+    
     const prisma = c.get('prisma');
-
 
     try{
         const posts = await prisma.post.findMany({

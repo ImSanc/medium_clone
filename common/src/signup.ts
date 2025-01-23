@@ -7,5 +7,4 @@ export const signUpInput = z.object({
     name :  z.string().optional()
 })
 
-type SignUpInput = z.infer<typeof signUpInput>;
-
+export type SignUpInput = z.infer<typeof signUpInput>;
