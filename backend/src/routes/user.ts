@@ -1,10 +1,10 @@
 import { Hono } from "hono"
-import { PrismaClient, Prisma } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
+import { Prisma } from '@prisma/client/edge'
 import {sign} from 'hono/jwt'
 import {hash ,compare} from 'bcryptjs';
 import { ResponseMessages } from "../constants/errorMessages";
 import { Environment } from "../constants/environment";
+import { signUpInput,signInInput } from "@imsanc/medium-common";
 
 const user = new Hono<
     Environment
@@ -15,7 +15,17 @@ user.post( '/signup', async (c) => {
     console.log(" User signup api called ");
 
     try{
+
         const body = await c.req.json();
+        const {success} = signUpInput.safeParse(body);
+
+        if( !success)
+        {
+            c.json( {
+                 message : ResponseMessages.INVALID_INPUTS
+            },411);
+        }
+
         const {email,name, password} = body;
         const prisma = c.get('prisma');
 
@@ -62,6 +72,15 @@ user.post( '/signin', async (c) => {
 
         const prisma = c.get('prisma');
         const body = await c.req.json();
+
+        const {success} = signInInput.safeParse(body);
+
+        if( !success)
+        {
+            c.json( {
+                 message : ResponseMessages.INVALID_INPUTS
+            },411);
+        }
         const {email, password} = body;
 
         const user = await prisma.user.findUnique({

@@ -19,6 +19,7 @@ export enum ResponseMessages {
     POST_RECEIVED = "Post received successfully",
     POST_NOT_FOUND = "Not able to find the post",
     POSTS_RECEIVED = "Posts received successfully",
-    POST_RETRIEVE_FAILED = "Post retrievel failed"
+    POST_RETRIEVE_FAILED = "Post retrievel failed",
+    INVALID_INPUTS = "Inputs are invalid"
 
 }

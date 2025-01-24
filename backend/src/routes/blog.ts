@@ -2,35 +2,43 @@ import { Hono } from "hono";
 import { verifyToken } from "../middlewares/tokenVerfication";
 import { Environment } from "../constants/environment";
 import { ResponseMessages } from "../constants/errorMessages";
+import { createBlog, updateBlog } from "@imsanc/medium-common";
 
 const blog = new Hono<Environment>();
 
 blog.post( '/',verifyToken, async (c)=>{
     console.log("Blog post api called ");
-    
-    const body = await c.req.json();
+
     const prisma = c.get('prisma');
     const userId = c.get('userId');
 
     try{
-    const postId = await prisma.post.create({
-        data :{
-            title : body.title,
-            content : body.content,
-            published : body.published,
-            authorId : userId
-        },
-        select : {
-            id : true
-        }
-        }
-    );
+        const body = await c.req.json();
+        const {success} = createBlog.safeParse(body);
 
-    return c.json({
-        success : true,
-        postId : postId,
-        message : ResponseMessages.POST_CREATED
-    },202);
+        if( !success){
+            c.json( {
+                message : ResponseMessages.INVALID_INPUTS
+            },411);
+        }
+        const postId = await prisma.post.create({
+            data :{
+                title : body.title,
+                content : body.content,
+                published : body.published,
+                authorId : userId
+            },
+            select : {
+                id : true
+            }
+            }
+        );
+
+        return c.json({
+            success : true,
+            postId : postId,
+            message : ResponseMessages.POST_CREATED
+        },202);
     }
     catch (error){
         return c.json(
@@ -47,10 +55,21 @@ blog.post( '/',verifyToken, async (c)=>{
 blog.put( '/',verifyToken, async (c)=>{
     console.log("Blog put api called ");
 
-    const body = await c.req.json();
+   
     const prisma = c.get('prisma');
 
     try{
+
+        const body = await c.req.json();
+
+        const {success} = updateBlog.safeParse(body);
+
+        if( !success){
+            c.json( {
+                message : ResponseMessages.INVALID_INPUTS
+            },411);
+        }
+        
         const res = await prisma.post.update({
             where : {
                 id : body.id
