@@ -21,7 +21,7 @@ user.post( '/signup', async (c) => {
 
         if( !success)
         {
-            c.json( {
+            return c.json( {
                  message : ResponseMessages.INVALID_INPUTS
             },411);
         }
@@ -74,10 +74,10 @@ user.post( '/signin', async (c) => {
         const body = await c.req.json();
 
         const {success} = signInInput.safeParse(body);
-
+        console.log(" Input validated "+success);
         if( !success)
         {
-            c.json( {
+            return c.json( {
                  message : ResponseMessages.INVALID_INPUTS
             },411);
         }

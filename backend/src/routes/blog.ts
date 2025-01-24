@@ -17,7 +17,7 @@ blog.post( '/',verifyToken, async (c)=>{
         const {success} = createBlog.safeParse(body);
 
         if( !success){
-            c.json( {
+            return c.json( {
                 message : ResponseMessages.INVALID_INPUTS
             },411);
         }
@@ -65,11 +65,11 @@ blog.put( '/',verifyToken, async (c)=>{
         const {success} = updateBlog.safeParse(body);
 
         if( !success){
-            c.json( {
+           return c.json( {
                 message : ResponseMessages.INVALID_INPUTS
             },411);
         }
-        
+
         const res = await prisma.post.update({
             where : {
                 id : body.id
