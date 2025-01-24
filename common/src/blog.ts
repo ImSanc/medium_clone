@@ -3,8 +3,7 @@ import { boolean, string, z } from "zod";
 export const createBlog = z.object({
     title : string(),
     content : string(),
-    published : boolean(),
-    authorId : string()
+    published : boolean()
 });
 
 export type CreateBlogInput = z.infer< typeof createBlog>;

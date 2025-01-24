@@ -5,8 +5,7 @@ const zod_1 = require("zod");
 exports.createBlog = zod_1.z.object({
     title: (0, zod_1.string)(),
     content: (0, zod_1.string)(),
-    published: (0, zod_1.boolean)(),
-    authorId: (0, zod_1.string)()
+    published: (0, zod_1.boolean)()
 });
 exports.updateBlog = zod_1.z.object({
     title: (0, zod_1.string)(),
