@@ -1,8 +1,11 @@
+import { Auth } from "../components/Auth"
 import { Quote } from "../components/Quote"
 
 export const Signup = () =>{
     return <div className="  grid grid-cols-2">
-        <div>here</div>
+        <div>
+            <Auth type= "signup" ></Auth>
+        </div>
         <div className=" invisible md:visible">
             <Quote ></Quote>
         </div>
