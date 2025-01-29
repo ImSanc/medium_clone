@@ -3,7 +3,7 @@ export const Quote = () =>{
                 <div className=" flex flex-col justify-center text-xl sm:text-2xl  font-semibold text-slate-600 text-left ">
                 "The Customer service I recieved was exceptional. The support team went above and beyond to address my concerns."
                 </div>
-                <div >
+                <div className=" text-left">
                     <div className="pt-2 font-bold text-slate-800 ">
                         Sanchit Mishra
                     </div>
