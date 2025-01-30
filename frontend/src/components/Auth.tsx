@@ -6,7 +6,7 @@ import { useState } from "react";
 export const Auth = ( {type} : { type : "signin" | "signup"}) => {
 
     const isSignUp = (type === "signup");
-    const postInputs = useState<SignUpInput> ({
+    const [postInputs , setPostInputs] = useState<SignUpInput> ({
         name : "",
         email : "",
         password : ""
@@ -25,7 +25,24 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
             </div>
 
             <div>
-                <InputBox  label="User Name" placeholder="Sanchit mishra" onChange={ ()=>{}} />
+                <InputBox  label="User Name" placeholder="Sanchit mishra" onChange={ (e)=>{
+                    setPostInputs( c => ({
+                        ...c,
+                        name : e.target.value
+                    }))
+                }} />
+                <InputBox  label="E-mail" placeholder="your..@email.com" onChange={ (e)=>{
+                    setPostInputs( c => ({
+                        ...c,
+                        email : e.target.value
+                    }))
+                }} />
+                <InputBox  label="password" placeholder="123456" type="password" onChange={ (e)=>{
+                    setPostInputs( c => ({
+                        ...c,
+                        password : e.target.value
+                    }))
+                }} />
             </div>
             
             
