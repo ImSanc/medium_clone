@@ -15,17 +15,17 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
     return <div className="h-screen flex justify-center ">
         <div className=" flex justify-center  flex-col">
             <div>
-                <div className="text-4xl font-extrabold">
+                <div className="text-4xl font-extrabold px-10">
                     Create an Account
                 </div>
             </div>
             <div className=" pt-2 flex justify-center  text-gray-600 font-thin">
                 <div> Already have an account? </div>
-                <Link className="pl-3 underline " to={"/signin"}> Login</Link>
+                <Link className="pl-2 underline " to={"/signin"}> Login</Link>
             </div>
 
-            <div>
-                <InputBox  label="User Name" placeholder="Sanchit mishra" onChange={ (e)=>{
+            <div className=" pt-8">
+                <InputBox  label="User Name" placeholder="Your name" onChange={ (e)=>{
                     setPostInputs( c => ({
                         ...c,
                         name : e.target.value

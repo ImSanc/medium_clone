@@ -14,8 +14,8 @@ function InputBox ( {type ,label , placeholder  , onChange }: LabelledInputType)
 
     return (
         <div>
-            <label className="mb-2 text-sm font-medium text-gray-900 ">{label}</label>
-            <div className=" flex items-center border border-gray-300 rounded-lg bg-gray-50">
+            <label className="text-sm font-medium text-gray-900  ">{label}</label>
+            <div className="mt-2 flex items-center border border-gray-300 rounded-lg bg-gray-50">
                 <input 
                     type={ (type==="password" && !isPasswordVisible ) ? "password" : "text" }
                     onChange={ onChange } 
