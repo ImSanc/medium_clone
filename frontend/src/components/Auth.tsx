@@ -15,13 +15,15 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
     return <div className="h-screen flex justify-center ">
         <div className=" flex justify-center  flex-col">
             <div>
-                <div className="text-4xl font-extrabold px-8">
-                    Create an Account
+                <div className={`text-4xl font-extrabold px-8 ${ isSignUp ? "" :  "mx-9"}`}>
+                { isSignUp ? "Create an Account" : "Login Account"}
                 </div>
             </div>
             <div className=" pt-2 flex justify-center  text-gray-600 font-thin">
-                <div> Already have an account? </div>
-                <Link className="pl-2 underline " to={"/signin"}> Login</Link>
+                <div> { isSignUp ? "Already have an account?" : "Don't have an Account?"} </div>
+                <Link className=" pl-2 underline " to={  isSignUp ? "/signin" : "/signup"} >
+                    { isSignUp ? "Login" : "Sign Up"}
+                </Link>
             </div>
 
             <div className=" pt-8">
@@ -44,7 +46,10 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
                     }))
                 }} />
             </div>
-            
+            <button type="button" className=" mt-5 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                {isSignUp ? "Sign Up" : "Sign in"}
+            </button>
+
             
         </div>
         
