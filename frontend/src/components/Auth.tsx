@@ -15,7 +15,7 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
     return <div className="h-screen flex justify-center ">
         <div className=" flex justify-center  flex-col">
             <div>
-                <div className="text-4xl font-extrabold px-10">
+                <div className="text-4xl font-extrabold px-8">
                     Create an Account
                 </div>
             </div>
@@ -25,7 +25,7 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
             </div>
 
             <div className=" pt-8">
-                <InputBox  label="User Name" placeholder="Your name" onChange={ (e)=>{
+                <InputBox  label="User Name" placeholder="Your name..." onChange={ (e)=>{
                     setPostInputs( c => ({
                         ...c,
                         name : e.target.value
@@ -37,7 +37,7 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
                         email : e.target.value
                     }))
                 }} />
-                <InputBox  label="password" placeholder="123456" type="password" onChange={ (e)=>{
+                <InputBox  label="Password" placeholder="123456..." type="password" onChange={ (e)=>{
                     setPostInputs( c => ({
                         ...c,
                         password : e.target.value
