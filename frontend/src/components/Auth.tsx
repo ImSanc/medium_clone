@@ -25,27 +25,28 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
                     { isSignUp ? "Login" : "Sign Up"}
                 </Link>
             </div>
-
-            <div className=" pt-8">
-                <InputBox  label="User Name" placeholder="Your name..." onChange={ (e)=>{
-                    setPostInputs( c => ({
-                        ...c,
-                        name : e.target.value
-                    }))
-                }} />
-                <InputBox  label="E-mail" placeholder="your..@email.com" onChange={ (e)=>{
-                    setPostInputs( c => ({
-                        ...c,
-                        email : e.target.value
-                    }))
-                }} />
-                <InputBox  label="Password" placeholder="123456..." type="password" onChange={ (e)=>{
-                    setPostInputs( c => ({
-                        ...c,
-                        password : e.target.value
-                    }))
-                }} />
-            </div>
+            <form>
+                <div className=" pt-8">
+                    <InputBox  label="User Name" placeholder="Your name..." onChange={ (e)=>{
+                        setPostInputs( c => ({
+                            ...c,
+                            name : e.target.value
+                        }))
+                    }} />
+                    <InputBox  label="E-mail" placeholder="your..@email.com" onChange={ (e)=>{
+                        setPostInputs( c => ({
+                            ...c,
+                            email : e.target.value
+                        }))
+                    }} />
+                    <InputBox  label="Password" placeholder="123456..."  type="password" onChange={ (e)=>{
+                        setPostInputs( c => ({
+                            ...c,
+                            password : e.target.value
+                        }))
+                    }} />
+                </div>
+            </form>
             <button type="button" className=" mt-5 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
                 {isSignUp ? "Sign Up" : "Sign in"}
             </button>

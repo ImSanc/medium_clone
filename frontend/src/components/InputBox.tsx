@@ -20,6 +20,7 @@ function InputBox ( {type ,label , placeholder  , onChange }: LabelledInputType)
                     type={ (type==="password" && !isPasswordVisible ) ? "password" : "text" }
                     onChange={ onChange } 
                     placeholder= {placeholder} 
+                    autoComplete = "current-password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:to-blue-500 w-full p-2.5 outline-none border-none" 
                 />
                 { type === "password"  && (
