@@ -7,7 +7,7 @@ import { cors} from "hono/cors";
 
 const app = new Hono<Environment>().basePath("/api");
 
-app.use('/api/*',cors());
+app.use('/*',cors());
 app.use(connectDB);
 app.route('/v1/user', user);
 app.route('/v1/blog', blog);
