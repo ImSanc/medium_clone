@@ -2,8 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import InputBox from "./InputBox";
 import { SignUpInput } from "@imsanc/medium-common";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { BACKEND_URL } from "../config";
+import { toast } from "react-toastify";
 
 export const Auth = ( {type} : { type : "signin" | "signup"}) => {
 
@@ -23,9 +24,18 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
             localStorage.setItem("token", jwt);
             navigate("/blogs");
         }
-        catch (e )
+        catch (error )
         {
-
+            const axiosError = error as AxiosError<{ message: string }>;
+            toast.error(axiosError.response?.data?.message || "Something went wrong. Please try again.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     }
 
