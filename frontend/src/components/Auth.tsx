@@ -34,7 +34,7 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,
+                progress: undefined
             });
         }
     }

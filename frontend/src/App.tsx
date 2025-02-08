@@ -16,7 +16,7 @@ function App() {
   return <>
     <BrowserRouter>
       <AppRoutes/>
-      <ToastContainer/>
+      <ToastContainer theme="colored"/>
     </BrowserRouter>
   </>;
 }
