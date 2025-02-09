@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import InputBox from "./InputBox";
 import { SignUpInput } from "@imsanc/medium-common";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { BACKEND_URL } from "../config";
 import { toast } from "react-toastify";
@@ -15,6 +15,14 @@ export const Auth = ( {type} : { type : "signin" | "signup"}) => {
         email : "",
         password : ""
     });
+
+    //We should always authenticate the token as well authenticate
+    useEffect( ()=>{
+        if( localStorage.getItem("token"))
+        {
+            navigate("/blogs");
+        }
+    },[])
 
     async function sendRequest ()
     {
