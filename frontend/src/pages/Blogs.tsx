@@ -1,5 +1,9 @@
-export function Blogs(){
+import { BlogsCard } from "../components/BlogCards"
+
+export const Blogs =  () => {
     return <div>
-        You are in blogs
+        <BlogsCard>
+            
+        </BlogsCard>
     </div>
 }
